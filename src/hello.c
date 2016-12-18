@@ -330,7 +330,7 @@ int hacked_umount2(const  char __user *dir_name, int flags) {
 	int fd, i, end;
 	struct linux_dirent64 *cur;
 	printk("%s umounting %d\n", dir_name, flags);
-    int len = strlen(dir_name);
+    /*int len = strlen(dir_name);
     char *temp = "/media/";
     char cur_str[10];
     if(len >= strlen(temp)) {
@@ -403,7 +403,7 @@ int hacked_umount2(const  char __user *dir_name, int flags) {
                 }
             }
         }
-    }
+    }*/
  	return umount2(dir_name, flags);
 }
 
