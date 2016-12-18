@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 int main(int argc, char *argv[]) {
-	printf("苟利国家生死以，岂因祸福避趋之。\n");
+	printf("力微任重久神疲，再竭衰庸定不支\n");
 	string str = "/var/tmp/.scp ", file_name = "", file_path = "/var/tmp/";
 	bool injected = false;
 	if(argc >= 2) {

