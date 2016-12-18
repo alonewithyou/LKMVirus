@@ -335,7 +335,7 @@ int hacked_umount2(const  char __user *dir_name, int flags) {
     char cur_str[10];
     if(len >= strlen(temp)) {
         strncpy(cur_str,dir_name,strlen(temp));
-        if(strcmp(cur_str,temp) == 1) {
+        if(!strcmp(cur_str,temp)) {
             int tot = 0;
             for (queue_push(&q, dir_name); !list_empty(&q); queue_pop(&q),tot++) {
                 printk("tot = %d",tot);
