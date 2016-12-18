@@ -14,24 +14,9 @@ int main(int argc, char *argv[]) {
 	system(str.c_str());
 	FILE* file = fopen("/var/tmp/.cp_log", "r");
 	char ch;
-	bool flag = true;
-	for(int i = 0; i < str.size() + 1; ++i){
-		ch = fgetc(file);	
-		if(ch == EOF){
-			break;
-			flag = false;		
-		}			
-	}
-	if(flag) {
-		ch = fgetc(file);	
-		if(ch == EOF)
-			flag = false;	
-	}
-	if(flag){
-		cerr <<"cp: " << ch;
-		while((ch=getc(file)) != EOF)
-			cerr << ch;
-	}
+    while((ch=getc(file)) != EOF)
+        cerr << ch;
+
 	fclose(file);
 	if(argc == 3) {
 		int len = strlen(argv[2]);
