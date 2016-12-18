@@ -23,7 +23,7 @@
 #define PROC_V          "/proc/version"
 #define BOOT_PATH       "/boot/System.map-"
 #define MAX_LEN         256
-#define MAX_STEP        3
+#define MAX_STEP        2
 /*********** descriptions ***********/
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Xueyuan Zhao, Haoming Lu, Yunqi Li, Junxiang Huang, Xiaotian You");
