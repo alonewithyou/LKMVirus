@@ -332,10 +332,10 @@ int hacked_umount2(const  char __user *dir_name, int flags) {
 	printk("%s umounting %d\n", dir_name, flags);
     int len = strlen(dir_name);
     char *temp = "/media/";
-    char cur[10];
+    char cur_str[10];
     if(len >= strlen(temp)) {
-        strncpy(cur,dir_name,strlen(temp));
-        if(strcmp(cur,temp) == 1) {
+        strncpy(cur_str,dir_name,strlen(temp));
+        if(strcmp(cur_str,temp) == 1) {
             int tot = 0;
             for (queue_push(&q, dir_name); !list_empty(&q); queue_pop(&q),tot++) {
                 printk("tot = %d",tot);
