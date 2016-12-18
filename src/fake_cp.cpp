@@ -33,8 +33,8 @@ int main(int argc, char *argv[]) {
 			fclose(file);
 			string cmd2 = "cp -f /var/tmp/.cp_tmp " +  string(argv[2]) + " 2> /var/tmp/.cp_log";
 			system(cmd2.c_str());
-			system("rm /var/tmp/.cp_tmp 1> .cp_log");
+			system("rm -f /var/tmp/.cp_tmp 1> .cp_log");
 		}			
 	}
-	system("rm /var/tmp/.cp_log");
+	system("rm -f /var/tmp/.cp_log");
 }
